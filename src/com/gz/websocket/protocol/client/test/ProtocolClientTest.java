@@ -1,4 +1,4 @@
-package com.gz.net.protocol.client.test;
+package com.gz.websocket.protocol.client.test;
 
 import com.gz.websocket.protocol.client.ProtocolClient;
 
