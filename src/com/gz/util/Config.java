@@ -26,7 +26,7 @@ public class Config {
 	/**
 	 * 初始化读取配置
 	 */
-	public void init(String path) {
+	public void init() {
 		//FileInputStream fis = null;
 		try {
 			//fis = new FileInputStream("conf/config.properties");
