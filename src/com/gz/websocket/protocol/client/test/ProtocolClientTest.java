@@ -6,7 +6,7 @@ public class ProtocolClientTest {
 
 	public static void main(String[] args) {
 		
-		final ProtocolClient client=new ProtocolClient("127.0.0.1", 18085, new ProtocolClientReceivedHandler());
+		final ProtocolClient client=new ProtocolClient("127.0.0.1", 18085, new ProtocolClientReceivedTestHandler());
 		
 //		try {
 //			client.run();

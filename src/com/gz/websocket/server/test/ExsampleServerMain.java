@@ -7,7 +7,7 @@ import com.gz.websocket.server.WebSocketServer;
 public class ExsampleServerMain {
 
 	public static void main(String[] args) {
-		GameServerMsgHandler handler=new GameServerMsgHandler();
+		GameServerTestMsgHandler handler=new GameServerTestMsgHandler();
 		WebSocketServer ws=new WebSocketServer(handler);
 		try {
 			ws.run(18662);

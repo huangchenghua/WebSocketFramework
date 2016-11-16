@@ -18,7 +18,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class ProtocolServer {
 
-	private int port;
 	
 	private static final int MAX_FRAME_LENGTH = 1024 * 1024;
 	private static final int LENGTH_FIELD_LENGTH = 4;
@@ -29,12 +28,11 @@ public class ProtocolServer {
 	/**
 	 * 
 	 */
-	public ProtocolServer(int port,ProtocolServerMsgHandler handler) {
-		this.port = port;
+	public ProtocolServer(ProtocolServerMsgHandler handler) {
 		protocolServerHandler = new ProtocolServerHandler(handler);
 	}
 
-	 public void run() throws Exception {
+	 public void run(int port) throws Exception {
 	        EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
 	        EventLoopGroup workerGroup = new NioEventLoopGroup();
 	        try {

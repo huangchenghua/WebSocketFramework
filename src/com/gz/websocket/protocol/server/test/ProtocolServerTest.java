@@ -5,11 +5,11 @@ import com.gz.websocket.protocol.server.ProtocolServer;
 public class ProtocolServerTest {
 
 	public static void main(String[] args) {
-		ReceivedHandler handler=new ReceivedHandler();
+		ReceivedTestHandler handler=new ReceivedTestHandler();
 		int port = 18085;
-		ProtocolServer server=new ProtocolServer(port, handler);
+		ProtocolServer server=new ProtocolServer(handler);
 		try {
-			server.run();
+			server.run(port);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
