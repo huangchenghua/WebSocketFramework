@@ -5,7 +5,8 @@ import io.netty.channel.Channel;
 public class BaseMsg {
 	protected Channel channel;
 	protected String content;
-	
+	protected int mainCode;
+
 	public BaseMsg(){}
 	
 	public BaseMsg(Channel channel, String content) {
@@ -24,6 +25,14 @@ public class BaseMsg {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public int getMainCode() {
+		return mainCode;
+	}
+
+	public void setMainCode(int mainCode) {
+		this.mainCode = mainCode;
 	}
 	
 }
