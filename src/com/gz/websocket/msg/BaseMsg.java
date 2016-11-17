@@ -35,4 +35,8 @@ public class BaseMsg {
 		this.mainCode = mainCode;
 	}
 	
+	public void parse()
+	{
+		
+	}
 }
