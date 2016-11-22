@@ -43,5 +43,4 @@ public class ProtocolClientHandler extends SimpleChannelInboundHandler<Object> {
 	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
 		handler.onSessionClosed(ctx.channel());
 	}
-	
 }

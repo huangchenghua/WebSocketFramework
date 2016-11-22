@@ -9,4 +9,6 @@ public interface ProtocolClientMsgHandler {
 	public void onMsgReceived(ProtocolMsg msg);
 	
 	public void onSessionClosed(Channel channel);
+	
+	public void onConnect(Channel channel);
 }

@@ -1,5 +1,6 @@
 package com.gz.websocket.protocol.server.test;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gz.websocket.msg.ProtocolMsg;
 import com.gz.websocket.protocol.server.ProtocolServerMsgHandler;
 
@@ -9,7 +10,8 @@ public class ReceivedTestHandler implements ProtocolServerMsgHandler {
 
 	@Override
 	public void onMsgReceived(ProtocolMsg msg) {
-		// TODO Auto-generated method stub
+		JSONObject json = msg.getJson();
+		int serverId = json.getIntValue("");
 		
 	}
 

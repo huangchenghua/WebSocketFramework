@@ -1,6 +1,7 @@
 package com.gz.util;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
@@ -30,7 +31,8 @@ public class Config {
 		//FileInputStream fis = null;
 		try {
 			//fis = new FileInputStream("conf/config.properties");
-			InputStream ins =Object. class .getResourceAsStream( "/config.properties" );
+//			InputStream ins =Object. class .getResourceAsStream( "/config.properties" );
+			InputStream ins =new FileInputStream( "./conf/config.properties" );
 			BufferedReader in = new BufferedReader(new InputStreamReader(ins, "iso-8859-1"));
 			Properties pro = new Properties();
 			pro.load(in);

@@ -1,12 +1,14 @@
 package com.gz.websocket.msg;
 
+import java.nio.charset.Charset;
+
 import com.alibaba.fastjson.JSONObject;
 import com.gz.websocket.protocol.ProtocolHeader;
 
 
 public class ProtocolMsg extends BaseMsg {
 	 
-	private ProtocolHeader protocolHeader = new ProtocolHeader();
+	private ProtocolHeader protocolHeader = ProtocolHeader.defaultHeader();
  	
 	private JSONObject json;
 	public JSONObject getJson() {
@@ -21,7 +23,7 @@ public class ProtocolMsg extends BaseMsg {
 	 * 
 	 */
 	public ProtocolMsg() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public ProtocolHeader getProtocolHeader() {
@@ -38,5 +40,13 @@ public class ProtocolMsg extends BaseMsg {
 		mainCode = json.getIntValue("mainCode");		
 	}
 
-
+	@Override
+	public void setContent(String content) {
+		super.setContent(content);
+		StringBuffer sb = new StringBuffer(content);
+		byte[] bodyBytes = sb.toString().getBytes(
+				Charset.forName("utf-8"));
+		int bodySize = bodyBytes.length;
+		protocolHeader.setLen(bodySize);
+	}
 }

@@ -31,6 +31,7 @@ public class ProtocolClient {
 	private static Logger log =Logger.getLogger(ProtocolClient.class);
 	
 	private ProtocolClientHandler protocolClientHandler;
+	private ProtocolClientMsgHandler msgHandler;
 	private String host;
 	private int port;
 
@@ -58,6 +59,7 @@ public class ProtocolClient {
 	public ProtocolClient(String host, int port,ProtocolClientMsgHandler handler) {
 		this.host = host;
 		this.port = port;
+		this.msgHandler =handler;
 		protocolClientHandler = new ProtocolClientHandler(handler);
 	}
 
@@ -116,7 +118,7 @@ public class ProtocolClient {
 //			}
 			
 			status = STATUS_WORKING;
-			
+			msgHandler.onConnect(f.channel());
 //			while(true){
 //				sendTestMsg();
 //				try {
@@ -142,26 +144,15 @@ public class ProtocolClient {
 //	}
 	public void sendTestMsg(){
 		ProtocolMsg msg = new ProtocolMsg();
-		ProtocolHeader protocolHeader = new ProtocolHeader();
-		protocolHeader.setMagic((byte) 0x01);
-		protocolHeader.setMsgType((byte) 0x01);
-		protocolHeader.setReserve((short) 0);
-		protocolHeader.setSn((short) 0);
+		ProtocolHeader protocolHeader = ProtocolHeader.defaultHeader();
 		JSONObject json =new JSONObject();
 		json.put("id", 111);
 		json.put("name", "张三");
 		json.put("money", 122234567891.78374);
 		String body = json.toJSONString();
-		StringBuffer sb = new StringBuffer();
-		sb.append(body);
-
-		byte[] bodyBytes = sb.toString().getBytes(
-				Charset.forName("utf-8"));
-		int bodySize = bodyBytes.length;
-		protocolHeader.setLen(bodySize);
 
 		msg.setProtocolHeader(protocolHeader);
-		msg.setContent(sb.toString());
+		msg.setContent(body);
 
 		f.channel().writeAndFlush(msg);
 //		f.channel().write(msg);

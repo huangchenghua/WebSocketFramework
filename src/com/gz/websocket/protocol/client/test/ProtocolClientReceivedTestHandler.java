@@ -19,4 +19,10 @@ public class ProtocolClientReceivedTestHandler implements ProtocolClientMsgHandl
 		
 	}
 
+	@Override
+	public void onConnect(Channel channel) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

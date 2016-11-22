@@ -56,5 +56,13 @@ public class ProtocolHeader{
 		this.sn = sn;
 		this.len = len;
 	}
-
+	
+	public static ProtocolHeader defaultHeader(){
+		ProtocolHeader header = new ProtocolHeader();
+		header.setMagic((byte) 0x01);
+		header.setMsgType((byte) 0x01);
+		header.setReserve((short) 0);
+		header.setSn((short) 0);
+		return header;
+	}
 }
