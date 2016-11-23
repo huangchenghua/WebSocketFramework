@@ -49,4 +49,15 @@ public class ProtocolMsg extends BaseMsg {
 		int bodySize = bodyBytes.length;
 		protocolHeader.setLen(bodySize);
 	}
+	
+	@Override
+	public void sendSelf() {
+		channel.writeAndFlush(this);
+	}
+	
+	@Override
+	public void clear() {
+		super.clear();
+		json = null;
+	}
 }
