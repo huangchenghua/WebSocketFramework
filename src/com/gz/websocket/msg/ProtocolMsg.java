@@ -52,6 +52,7 @@ public class ProtocolMsg extends BaseMsg {
 	
 	@Override
 	public void sendSelf() {
+		refreshContent();
 		channel.writeAndFlush(this);
 	}
 	
@@ -59,5 +60,10 @@ public class ProtocolMsg extends BaseMsg {
 	public void clear() {
 		super.clear();
 		json = null;
+	}
+	
+	public void refreshContent(){
+		if(json!=null)
+			setContent(json.toJSONString());
 	}
 }
