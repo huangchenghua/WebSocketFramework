@@ -51,4 +51,12 @@ public class BaseMsg {
 		content = null;
 		mainCode = 0;
 	}
+	
+	public void closeChannel(){
+		try {
+			if(channel!=null)
+				channel.close();
+		} catch (Exception e) {
+		}
+	}
 }
