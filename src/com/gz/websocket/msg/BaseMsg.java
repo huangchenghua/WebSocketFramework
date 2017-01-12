@@ -9,6 +9,15 @@ public class BaseMsg {
 	protected Channel channel;
 	protected String content;
 	protected int mainCode;
+	protected boolean inner;
+
+	public boolean isInner() {
+		return inner;
+	}
+
+	public void setInner(boolean inner) {
+		this.inner = inner;
+	}
 
 	public BaseMsg(){}
 	
@@ -44,7 +53,8 @@ public class BaseMsg {
 	}
 	
 	public void sendSelf(){
-		channel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(content)));
+		if(channel!=null && channel.isActive())
+			channel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(content)));
 	}
 	
 	public void clear(){

@@ -98,6 +98,7 @@ public class HttpDecoderAndEncoder {
             response.headers().set(CONTENT_TYPE, "text/plain");
             response.headers().set(CONTENT_LENGTH,
                     response.content().readableBytes());
+            response.headers().set("Access-Control-Allow-Origin","*");
             if (HttpHeaders.isKeepAlive(req)) {
                 response.headers().set(CONNECTION, Values.KEEP_ALIVE);
             }

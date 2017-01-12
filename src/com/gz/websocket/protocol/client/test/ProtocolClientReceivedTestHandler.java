@@ -25,4 +25,10 @@ public class ProtocolClientReceivedTestHandler implements ProtocolClientMsgHandl
 		
 	}
 
+	@Override
+	public void onExceptionCaught(Channel channel, Throwable cause) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

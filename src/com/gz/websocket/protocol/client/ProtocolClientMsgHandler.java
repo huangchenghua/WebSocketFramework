@@ -11,4 +11,7 @@ public interface ProtocolClientMsgHandler {
 	public void onSessionClosed(Channel channel);
 	
 	public void onConnect(Channel channel);
+
+	public void onExceptionCaught(Channel channel, Throwable cause);
+	
 }

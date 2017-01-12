@@ -45,4 +45,9 @@ public class ProtocolClientHandler extends SimpleChannelInboundHandler<Object> {
 	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
 		handler.onSessionClosed(ctx.channel());
 	}
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		super.exceptionCaught(ctx, cause);
+		handler.onExceptionCaught(ctx.channel(),cause);
+	}
 }

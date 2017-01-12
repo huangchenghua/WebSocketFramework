@@ -23,7 +23,7 @@ public class ProtocolMsg extends BaseMsg {
 	 * 
 	 */
 	public ProtocolMsg() {
-		
+		json = new JSONObject();
 	}
 	
 	public ProtocolHeader getProtocolHeader() {
@@ -52,18 +52,24 @@ public class ProtocolMsg extends BaseMsg {
 	
 	@Override
 	public void sendSelf() {
-		refreshContent();
-		channel.writeAndFlush(this);
+		if(channel!=null && channel.isActive()){
+			refreshContent();
+			channel.writeAndFlush(this);
+		}
 	}
 	
 	@Override
 	public void clear() {
 		super.clear();
-		json = null;
+		json = new JSONObject();
 	}
 	
 	public void refreshContent(){
 		if(json!=null)
 			setContent(json.toJSONString());
+	}
+	
+	public void put(String key,Object value){
+		json.put(key, value);
 	}
 }

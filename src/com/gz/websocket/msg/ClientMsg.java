@@ -39,10 +39,22 @@ public class ClientMsg extends BaseMsg {
 	@Override
 	public void clear() {
 		super.clear();
-		json = null;
+		json = new JSONObject();
 	}
 	
 	public void sendSelf(){
-		channel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(json)));
+		if(channel!=null && channel.isActive())
+			channel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(json)));
+		System.out.println("发包："+json.toJSONString());
+	}
+	
+	public void put(String key,Object value){
+		json.put(key, value);
+	}
+	
+	public ClientMsg copy(){
+		ClientMsg msg=new ClientMsg();
+		msg.setJson(json);
+		return msg;
 	}
 }
