@@ -28,7 +28,7 @@ public class ProtocolClientHandler extends SimpleChannelInboundHandler<Object> {
 			throws Exception {
         Channel incoming = ctx.channel();
 		//System.out.println("Server->Client:"+incoming.remoteAddress()+obj.toString());
-		log.info("Server->Client:"+incoming.remoteAddress()+obj.toString());
+//		log.info("Server->Client:"+incoming.remoteAddress()+obj.toString());
 		if(obj instanceof ProtocolMsg) {
 			ProtocolMsg msg = (ProtocolMsg)obj;
 			msg.setChannel(incoming);
