@@ -3,8 +3,11 @@ package com.gz.http;
 import static io.netty.handler.codec.http.HttpResponseStatus.*;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.codec.Charsets;
@@ -18,9 +21,13 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.handler.codec.http.multipart.Attribute;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
+import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.rtsp.RtspHeaders.Values;
 import io.netty.util.AsciiString;
 
@@ -43,20 +50,43 @@ public class HttpDecoderAndEncoder {
 	
 	/**
 	 * 解析请求参数
-	 * @param request
-	 * @return
+	 * 
+	 * @return 包含所有请求参数的键值对, 如果没有参数, 则返回空Map
+	 *
+	 * @throws BaseCheckedException
+	 * @throws IOException
 	 */
-	public static JSONObject getRequestParameters(FullHttpRequest request){
-		String jsonStr = request.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
-		QueryStringDecoder queryDecoder = new QueryStringDecoder(jsonStr, false);
-		JSONObject json=new JSONObject();
-		Map<String, List<String>> uriAttributes = queryDecoder.parameters();
-		for (Map.Entry<String, List<String>> attr : uriAttributes.entrySet()) {
-			for (String attrVal : attr.getValue()) {
-				json.put(attr.getKey(),attrVal);
+	public static Map<String, String> parse(FullHttpRequest fullReq) throws Exception {
+		HttpMethod method = fullReq.method();
+
+		Map<String, String> parmMap = new HashMap<>();
+
+		if (HttpMethod.GET == method) {
+			// 是GET请求
+			QueryStringDecoder decoder = new QueryStringDecoder(fullReq.uri());
+			Set<Entry<String, List<String>>> set=decoder.parameters().entrySet();
+			for(Entry<String, List<String>> entry: set){
+				parmMap.put(entry.getKey(), entry.getValue().get(0));
 			}
+		} else if (HttpMethod.POST == method) {
+			// 是POST请求
+			HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(fullReq);
+			decoder.offer(fullReq);
+
+			List<InterfaceHttpData> parmList = decoder.getBodyHttpDatas();
+
+			for (InterfaceHttpData parm : parmList) {
+
+				Attribute data = (Attribute) parm;
+				parmMap.put(data.getName(), data.getValue());
+			}
+
+		} else {
+			// 不支持其它方法
+			throw new Exception(""); // 这是个自定义的异常, 可删掉这一行
 		}
-		return json;
+
+		return parmMap;
 	}
 	
 	/**

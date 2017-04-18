@@ -6,7 +6,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 
+import java.net.URI;
 import java.util.HashMap;
+import java.util.Map;
 
 import io.netty.channel.ChannelHandler.Sharable;
 
@@ -22,13 +24,28 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
-		String path=request.uri();
+//		String path=request.uri();
+//		HttpServerMsgHandler handler = httphandlersChain.get(path);
+//		if(handler!=null){
+//			if (request.method().equals(HttpMethod.GET)) {
+//				handler.doGet(ctx, request);
+//			} else if (request.method().equals(HttpMethod.POST)||request.method().equals(HttpMethod.OPTIONS)) {
+//				handler.doPost(ctx, request);
+//			}
+//		}
+//		else
+//			ctx.close();
+		
+		URI uri = new URI(request.uri());
+//      System.err.println("request uri==" + uri.getPath());
+		String path=uri.getPath();
 		HttpServerMsgHandler handler = httphandlersChain.get(path);
+		Map<String, String> parmMap = HttpDecoderAndEncoder.parse(request);
 		if(handler!=null){
 			if (request.method().equals(HttpMethod.GET)) {
-				handler.doGet(ctx, request);
+				handler.doGet(ctx, request, parmMap);
 			} else if (request.method().equals(HttpMethod.POST)||request.method().equals(HttpMethod.OPTIONS)) {
-				handler.doPost(ctx, request);
+				handler.doPost(ctx, request, parmMap);
 			}
 		}
 		else
